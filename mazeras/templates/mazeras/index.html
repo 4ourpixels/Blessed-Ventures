@@ -1,0 +1,122 @@
+{% extends 'mazeras/base.html' %}{% load static %} {% block body %}
+  <h3 class="m-4">All Natural Stones</h3>
+  <div class="row">
+    <div class="col-12">
+      {% if stones %}
+      <div class="card bg-light ms-4 me-4 mb-4">
+        <div class="card-header">
+          <i class="fa-solid fa-list fa-lg"></i> Stones Records
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Stone Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for stone in stones %}
+                    <tr>
+                        <th scope="row">{{ stone.pk }}</th>
+                        <td>{{ stone.name }}</td>
+                        <td>{{ stone.price }}</td>
+                        <td>{{ stone.stock }}</td>
+                        <td>
+                            <!-- Button trigger modal -->
+                            <button type="button" href="{% url 'view_stone' stone.id %}" class="btn btn-success me-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{ stone.id }}">
+                            Edit
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal{{ stone.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel{{ stone.id }}">
+                                        Stone: {{ stone.name }}
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <ul class="list-unstyled">
+                                        <li>Name: <strong>{{ stone.name }}</strong></li>
+                                        <li>Price: <strong>{{ stone.price }}</strong></li>
+                                        <li>Stock: <strong>{{ stone.stock }}</strong></li>
+                                    </ul>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+          </p>
+        </div>
+      </div>
+      {% else %}
+      <h5 class="alert alert-primary ms-4 me-4">No Stones In Stock</h5>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <h3 class="m-4">All Projects</h3>
+  <div class="row">
+    <div class="col-12">
+      {% if projects %}
+      <div class="card bg-light ms-4 me-4 mb-4">
+        <div class="card-header">
+          <i class="fa-solid fa-list fa-lg"></i> Projects
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Stone</th>
+                        <th scope="col">Started</th>
+                        <th scope="col">Completed</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for project in projects %}
+                    <tr>
+                        <th scope="row">{{ project.pk }}</th>
+                        <td>{{ project.name }}</td>
+                        <td>{{ project.location }}</td>
+                        <td>{{ project.stone }}</td>
+                        <td>{{ project.created_at }}</td>
+                        <td>{{ project.status }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+          </p>
+        </div>
+      </div>
+      {% else %}
+      <h5 class="alert alert-primary ms-4 me-4">No Stones In Stock</h5>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
