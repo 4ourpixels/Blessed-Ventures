@@ -51,3 +51,28 @@ def add(request):
     return render(request, 'mazeras/add.html', {
         'form': StoneForm()
     })
+
+
+def edit(request, id):
+    if request.method == "POST":
+        stone = Stone.objects.get(pk=id)
+        form = StoneForm(request.POST, instance=stone)
+        if form.is_valid():
+            form.save()
+            return render(request, 'mazeras/edit.html', {
+                'form': form,
+                'success': True
+            })
+    else:
+        stone = Stone.objects.get(pk=id)
+        form = StoneForm(instance=stone)
+    return render(request, 'mazeras/edit.html', {
+        'form': form,
+    })
+
+
+def delete(request, id):
+    if request.method == 'POST':
+        stone = Stone.objects.get(pk=id)
+        stone.delete()
+    return HttpResponseRedirect(reverse('index'))
