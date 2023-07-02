@@ -2,8 +2,8 @@
 <h3 class="m-4">Add Stone</h3>
 {% if success %}
 <div class="alert alert-success" role="alert">
-  The new natural stone added successfully.
-  <a href="{% url 'index' %}" class="alert-link">Go to Home Page.</a>
+  Natural stone was added successfully.
+  <a href="{% url 'index' %}" class="alert-link">Back Home.</a>
 </div>
 {% else %}
 <div class="row justify-content-center">
@@ -13,12 +13,11 @@
       <div class="card-body">
         <form action="{% url 'add' %}" method="POST">
           {% csrf_token %} {{ form.as_p }}
-          <button class="btn btn-lg btn-success">Add</button>
+          <button class="btn btn-success w-100 mb-3">Add</button>
           <a class="btn btn-secondary" href="{% url 'index' %}">Cancel</a>
         </form>
       </div>
     </div>
   </div>
 </div>
-
 {% endif %} {% endblock %}
