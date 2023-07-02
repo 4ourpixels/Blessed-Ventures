@@ -2,14 +2,14 @@
 <h3 class="m-4">Update Stone</h3>
 {% if success %}
 <div class="alert alert-success" role="alert">
-  The new natural stone was updated successfully.
-  <a href="{% url 'index' %}" class="alert-link">Go to Home Page.</a>
+  Stone updated.
+  <a href="{% url 'index' %}" class="alert-link">Back Home.</a>
 </div>
 {% else %}
 <div class="row justify-content-center">
   <div class="col-6">
     <div class="card bg-light mb-3">
-      <div class="card-header">Update Stone Record</div>
+      <div class="card-header">Update Stone</div>
       <div class="card-body">
         <form action="" method="POST">
           {% csrf_token %} {{ form.as_p }}
@@ -20,5 +20,4 @@
     </div>
   </div>
 </div>
-
 {% endif %} {% endblock %}
