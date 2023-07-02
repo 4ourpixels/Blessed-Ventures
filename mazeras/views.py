@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from .models import *
 
-from .forms import StoneForm
+from .forms import StoneForm, ProjectForm
 # Create your views here.
 
 
@@ -75,4 +75,68 @@ def delete(request, id):
     if request.method == 'POST':
         stone = Stone.objects.get(pk=id)
         stone.delete()
+    return HttpResponseRedirect(reverse('index'))
+
+# Project Functions
+
+
+def view_project(request, id):
+    project = Project.objects.get(pk=id)
+    return HttpResponseRedirect(reverse('index'))
+
+
+def new_project(request):
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            new_project_name = form.cleaned_data['name']
+            new_project_description = form.cleaned_data['description']
+            new_project_location = form.cleaned_data['location']
+            new_project_stones = form.cleaned_data['stones']
+            new_project_created_at = form.cleaned_data['created_at']
+            new_project_status = form.cleaned_data['status']
+
+            new_project = Project(
+                name=new_project_name,
+                description=new_project_description,
+                location=new_project_location,
+                stones=new_project_stones,
+                created_at=new_project_created_at,
+                status=new_project_status,
+            )
+            new_project.save()
+
+            return render(request, 'mazeras/new_project.html', {
+                'form': ProjectForm(),
+                'success': True,
+            })
+        else:
+            form = ProjectForm()
+    return render(request, 'mazeras/new_project.html', {
+        'form': ProjectForm()
+    })
+
+
+def edit_project(request, id):
+    if request.method == "POST":
+        project = Project.objects.get(pk=id)
+        form = ProjectForm(request.POST, instance=project)
+        if form.is_valid():
+            form.save()
+            return render(request, 'mazeras/edit_project.html', {
+                'form': form,
+                'success': True
+            })
+    else:
+        project = Project.objects.get(pk=id)
+        form = ProjectForm(instance=project)
+    return render(request, 'mazeras/edit_project.html', {
+        'form': form,
+    })
+
+
+def delete_project(request, id):
+    if request.method == 'POST':
+        project = Project.objects.get(pk=id)
+        project.delete()
     return HttpResponseRedirect(reverse('index'))
