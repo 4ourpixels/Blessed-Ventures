@@ -1,0 +1,23 @@
+{% extends 'mazeras/base.html' %}{% load static %} {% block body %}
+<h3 class="m-4">New Project</h3>
+{% if success %}
+<div class="alert alert-success" role="alert">
+  Project was added successfully.
+  <a href="{% url 'index' %}" class="alert-link">Back Home.</a>
+</div>
+{% else %}
+<div class="row justify-content-center">
+  <div class="col-6">
+    <div class="card bg-light mb-3">
+      <div class="card-header">Project Details Registration</div>
+      <div class="card-body">
+        <form action="{% url 'new_project' %}" method="POST">
+          {% csrf_token %} {{ form.as_p }}
+          <button class="btn btn-success w-100 mb-3">Add</button>
+          <a class="btn btn-secondary" href="{% url 'index' %}">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %} {% endblock %}
