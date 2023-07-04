@@ -1,7 +1,7 @@
 {
   "builds": [
     {
-      "src": "lukustore/wsgi.py",
+      "src": "bvmazeras/wsgi.py",
       "use": "@vercel/python",
       "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
     }
@@ -9,7 +9,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "lukustore/wsgi.py"
+      "dest": "bvmazeras/wsgi.py"
     }
   ]
 }
