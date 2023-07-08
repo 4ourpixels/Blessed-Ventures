@@ -25,8 +25,8 @@
     />
     <!-- End Of Bootstrap CDN -->
   </head>
-  <body class="d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-lg bg-light">
+  <body class="d-flex bg-dark flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'index' %}">BV</a>
         <button
@@ -43,17 +43,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a
-                class="nav-link active"
-                aria-current="page"
-                href="{% url 'index' %}"
-                >Home</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'new_project' %}"
-                >New Projects</a
-              >
+              <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'add' %}">Add Stone</a>
