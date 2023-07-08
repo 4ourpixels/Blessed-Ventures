@@ -140,3 +140,33 @@ def delete_project(request, id):
         project = Project.objects.get(pk=id)
         project.delete()
     return HttpResponseRedirect(reverse('index'))
+
+
+def dashboard(request):
+    stones = Stone.objects.all()
+    projects = Project.objects.all()
+
+    context = {
+        'stones': stones,
+        'projects': projects,
+    }
+
+    return render(request, 'mazeras/dashboard.html', context)
+
+
+def mazeras(request):
+    projects = Project.objects.all()
+    context = {
+        'projects': projects,
+    }
+
+    return render(request, 'mazeras/mazeras.html', context)
+
+
+def thetap(request):
+    projects = Project.objects.all()
+    context = {
+        'projects': projects,
+    }
+
+    return render(request, 'mazeras/thetap.html', context)

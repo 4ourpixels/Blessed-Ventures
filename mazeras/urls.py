@@ -12,4 +12,8 @@ urlpatterns = [
     path('new_project/', views.new_project, name='new_project'),
     path('edit_project/<int:id>/', views.edit_project, name='edit_project'),
     path('delete_project/<int:id>/', views.delete_project, name='delete_project'),
+
+    path('dashboard/', views.dashboard, name="dashboard"),
+    path('mazeras/', views.mazeras, name="mazeras"),
+    path('thetap/', views.thetap, name="thetap"),
 ]
