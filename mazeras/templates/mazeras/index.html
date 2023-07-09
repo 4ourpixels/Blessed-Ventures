@@ -2,7 +2,7 @@
   <h3 class="m-4">All Natural Stones</h3>
   <div class="row">
     <div class="col-12">
-      {% if stones %}
+
       <h2 class="text-muted">All Stones</h2>
       <div class="card bg-black text-white ms-4 me-4 mb-4">
         <div class="card-header text-muted">
@@ -105,9 +105,7 @@
           </p>
         </div>
       </div>
-      {% else %}
-      <h5 class="alert alert-primary ms-4 me-4">No Stones In Stock</h5>
-      {% endif %}
+
     </div>
   </div>
 </div>
@@ -116,7 +114,7 @@
   <h3 class="m-4 text-muted">All Projects</h3>
   <div class="row">
     <div class="col-12">
-      {% if projects %}
+
       <div class="card bg-black ms-4 me-4 mb-4">
         <div class="card-header">
           <i class="fa-solid fa-list fa-lg"></i> Projects
@@ -221,9 +219,7 @@
           </p>
         </div>
       </div>
-      {% else %}
-      <h5 class="alert alert-primary ms-4 me-4">No Project</h5>
-      {% endif %}
+
     </div>
   </div>
 {% endblock %}
