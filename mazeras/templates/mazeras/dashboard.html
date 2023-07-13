@@ -91,7 +91,7 @@
         <nav
           class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0"
         >
-          <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+          <a href="{% url 'index' %}" class="navbar-brand d-flex d-lg-none me-4">
             <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
           </a>
           <a href="#" class="sidebar-toggler flex-shrink-0">
@@ -293,7 +293,7 @@
           <div class="bg-secondary text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
               <h6 class="mb-0">Stock</h6>
-              <a href="">Show All</a>
+              <a href="{% url 'add' %}">New Natural Stone</a>
             </div>
             <div class="table-responsive">
               <table
@@ -301,9 +301,6 @@
               >
                 <thead>
                   <tr class="text-white">
-                    <th scope="col">
-                      <input class="form-check-input" type="checkbox" />
-                    </th>
                     <th scope="col">Name</th>
                     <th scope="col">Price</th>
                     <th scope="col">Stock</th>
@@ -313,7 +310,6 @@
                 <tbody>
                     {% for stone in stones %}
                     <tr>
-                        <td><input class="form-check-input" type="checkbox" /></td>
                         <td>{{ stone.name }}</td>
                         <td>{{ stone.price }}</td>
                         <td>{{ stone.name }}</td>
@@ -327,12 +323,17 @@
         <!-- Recent Sales End -->
         {% endif %}
 
+        {% if project %}
+        <div class="container d-flex-justify-content-evenly">
+            <h1 class="text-danger fw-bold">No Ongoing Projects!</h1>
+        </div>
+        {% else %}
         <!-- Recent Sales Start -->
         <div class="container-fluid pt-4 px-4">
           <div class="bg-secondary text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
-              <h6 class="mb-0">Recent Sales</h6>
-              <a href="">Show All</a>
+              <h6 class="mb-0">Ongoing Projects</h6>
+              <a href="{% url 'new_project' %}">New Project</a>
             </div>
             <div class="table-responsive">
               <table
@@ -340,18 +341,15 @@
               >
                 <thead>
                   <tr class="text-white">
-                    <th scope="col">
-                      <input class="form-check-input" type="checkbox" />
-                    </th>
+
                     <th scope="col">Project</th>
-                    <th scope="col">Completed</th>
+                    <th scope="col">Started</th>
                     <th scope="col">Location</th>
                   </tr>
                 </thead>
                 <tbody>
                 {% for project in projects %}
                 <tr>
-                    <td><input class="form-check-input" type="checkbox" /></td>
                     <td>{{ project.name }}</td>
                     <td>{{ project.created_at|timesince }} ago</td>
                     <td>{{ project.location }}</td>
@@ -363,6 +361,7 @@
           </div>
         </div>
         <!-- Recent Sales End -->
+        {% endif %}
 
         <!-- Widgets Start -->
         <div class="container-fluid pt-4 px-4">
