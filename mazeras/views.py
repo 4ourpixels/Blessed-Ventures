@@ -118,6 +118,7 @@ def new_project(request):
 
 
 def edit_project(request, id):
+    project = Project.objects.get(pk=id)
     if request.method == "POST":
         project = Project.objects.get(pk=id)
         form = ProjectForm(request.POST, instance=project)

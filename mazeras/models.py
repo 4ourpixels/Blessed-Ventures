@@ -12,6 +12,9 @@ class Stone(models.Model):
     def __str__(self):
         return self.name
 
+    def has_ongoing_projects(self):
+        return self.projects.filter(status=True).exists()
+
 
 class Project(models.Model):
     name = models.CharField(max_length=100)

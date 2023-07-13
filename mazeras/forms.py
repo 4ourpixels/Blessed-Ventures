@@ -21,6 +21,9 @@ class StoneForm(forms.ModelForm):
 
 
 class ProjectForm(forms.ModelForm):
+    stones = forms.ModelMultipleChoiceField(queryset=Stone.objects.all(
+    ), widget=forms.SelectMultiple(attrs={'class': 'form-control'}))
+
     class Meta:
         model = Project
         fields = [
@@ -28,6 +31,7 @@ class ProjectForm(forms.ModelForm):
             'description',
             'location',
             'stones',
+            'status',
         ]
 
         labels = {
@@ -35,10 +39,11 @@ class ProjectForm(forms.ModelForm):
             'description': 'Description',
             'location': 'Location',
             'stones': 'Stones',
+            'status': 'Completed',
         }
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.TextInput(attrs={'class': 'form-control'}),
             'location': forms.TextInput(attrs={'class': 'form-control'}),
-            'stones': forms.TextInput(attrs={'class': 'form-control'}),
+            'status': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
