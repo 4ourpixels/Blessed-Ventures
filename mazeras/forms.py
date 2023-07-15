@@ -47,3 +47,31 @@ class ProjectForm(forms.ModelForm):
             'location': forms.TextInput(attrs={'class': 'form-control'}),
             'status': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
+
+
+class UncutMazerasForm(forms.ModelForm):
+    class Meta:
+        model = UncutMazeras
+        fields = ['name', 'price']
+        labels = {
+            'name': 'Name',
+            'price': 'Price',
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+
+class CutMazerasForm(forms.ModelForm):
+    class Meta:
+        model = CutMazeras
+        fields = ['name', 'price']
+        labels = {
+            'name': 'Name',
+            'price': 'Price',
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control'}),
+        }

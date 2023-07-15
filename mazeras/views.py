@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from .models import *
 
-from .forms import StoneForm, ProjectForm
+from .forms import *
 # Create your views here.
 
 
@@ -11,11 +11,15 @@ def index(request):
     page = "| Home"
     stones = Stone.objects.all()
     projects = Project.objects.all()
+    uncut_mazeras = UncutMazeras.objects.all()
+    cut_mazeras = CutMazeras.objects.all()
 
     context = {
         'page': page,
         'stones': stones,
         'projects': projects,
+        'uncut_mazeras': uncut_mazeras,
+        'cut_mazeras': cut_mazeras,
     }
     return render(request, 'mazeras/index.html', context)
 
@@ -171,3 +175,111 @@ def thetap(request):
     }
 
     return render(request, 'mazeras/thetap.html', context)
+
+
+def add_uncut_mazeras(request):
+    if request.method == 'POST':
+        form = UncutMazerasForm(request.POST)
+        if form.is_valid():
+            new_stone_name = form.cleaned_data['name']
+            new_stone_price = form.cleaned_data['price']
+
+            new_stone = UncutMazeras(
+                name=new_stone_name,
+                price=new_stone_price,
+            )
+            new_stone.save()
+
+            return render(request, 'mazeras/add_uncut_mazeras.html', {
+                'form': UncutMazerasForm(),
+                'success': True,
+            })
+        else:
+            form = UncutMazerasForm()
+    return render(request, 'mazeras/add_uncut_mazeras.html', {
+        'form': UncutMazerasForm()
+    })
+
+
+def edit_uncut_mazeras(request, id):
+    if request.method == "POST":
+        stone = UncutMazeras.objects.get(pk=id)
+        form = UncutMazerasForm(request.POST, instance=stone)
+        if form.is_valid():
+            form.save()
+            return render(request, 'mazeras/edit_uncut_mazeras.html', {
+                'form': form,
+                'success': True
+            })
+    else:
+        stone = UncutMazeras.objects.get(pk=id)
+        form = UncutMazerasForm(instance=stone)
+    return render(request, 'mazeras/edit_uncut_mazeras.html', {
+        'form': form,
+    })
+
+
+def add_cut_mazeras(request):
+    if request.method == 'POST':
+        form = CutMazerasForm(request.POST)
+        if form.is_valid():
+            new_stone_name = form.cleaned_data['name']
+            new_stone_price = form.cleaned_data['price']
+
+            new_stone = CutMazeras(
+                name=new_stone_name,
+                price=new_stone_price,
+            )
+            new_stone.save()
+
+            return render(request, 'mazeras/add_cut_mazeras.html', {
+                'form': CutMazerasForm(),
+                'success': True,
+            })
+        else:
+            form = CutMazerasForm()
+    return render(request, 'mazeras/add_cut_mazeras.html', {
+        'form': CutMazerasForm()
+    })
+
+
+def edit_cut_mazeras(request, id):
+    if request.method == "POST":
+        stone = CutMazeras.objects.get(pk=id)
+        form = CutMazerasForm(request.POST, instance=stone)
+        if form.is_valid():
+            form.save()
+            return render(request, 'mazeras/edit_cut_mazeras.html', {
+                'form': form,
+                'success': True
+            })
+    else:
+        stone = CutMazeras.objects.get(pk=id)
+        form = CutMazerasForm(instance=stone)
+    return render(request, 'mazeras/edit_cut_mazeras.html', {
+        'form': form,
+    })
+
+
+def view_uncut_mazeras(request, id):
+    uncut = UncutMazeras.objects.get(pk=id)
+    return HttpResponseRedirect(reverse('index'))
+
+
+def view_cut_mazeras(request, id):
+    cut = CutMazeras.objects.get(pk=id)
+    return HttpResponseRedirect(reverse('index'))
+
+
+def delete_uncut_mazeras(request, id):
+    if request.method == 'POST':
+        uncut = UncutMazeras.objects.get(pk=id)
+        uncut.delete()
+    return HttpResponseRedirect(reverse('index'))
+
+
+def delete_cut_mazeras(request, id):
+    if request.method == 'POST':
+        cut = CutMazeras.objects.get(pk=id)
+        cut.delete()
+    return HttpResponseRedirect(reverse('index'))
