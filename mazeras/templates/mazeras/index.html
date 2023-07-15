@@ -1,240 +1,340 @@
 {% extends 'mazeras/base.html' %}{% load static %} {% block body %}
-  <h1 class="m-4 text-white text-center display-3">Blessed Ventures <br> Database Management System</h1>
+<h1 class="m-4 text-black text-center display-3">Database Management System</h1>
+<div class="container-fluid">
   <div class="row">
     <div class="col-12">
-      {% if stones %}
       <div class="card bg-black text-white ms-4 me-4 mb-4">
-        <div class="card-header text-muted h3 mt-4">
-          <i class="fa-solid fa-list fa-lg me-3"></i> Stones
-          <span class="float-end"><a class="btn btn-sm btn-outline-success" href="{% url 'add' %}"><i class="fa-solid fa-plus"></i></a></span>
+        <div class="card-header text-white h3 mt-4">
+          Uncut Price List Per Square Meters 
+          <span class="float-end"><a class="btn btn-sm btn-outline-success" href="{% url 'add_uncut_mazeras' %}"><i class="fa-solid fa-plus"></i></a></span>
         </div>
         <div class="card-body">
           <p class="card-text">
             <div class="table-responsive">
-                <table class="table text-white ">
-                    <thead>
-                    <tr>
-                        <th scope="col">Stone</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Stock</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for stone in stones %}
-                    <tr>
-                        <td>{{ stone.name }}</td>
-                        <td>{{ stone.price }}</td>
-                        <td>
-                          {% if stone.stock <= 1 %}
-                          <span><p class="badge rounded-pill bg-danger">Low</p></span>
-                          {% else %}
-                          <span><p class="badge rounded-pill bg-primary">{{ stone.stock }}</p></span>
-                          {% endif %}
-                        </td>
-                        <td>
-                            <!-- Button trigger modal -->
-                            <button type="button" href="{% url 'view_stone' stone.id %}" class="btn btn-success me-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{ stone.id }}">
-                            <i class="fa-solid fa-circle-info"></i>
-                            </button>
+              <table class="table text-white ">
+                <thead>
+                  <tr>
+                      <th scope="col">Stone</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for uncut in uncut_mazeras %}
+                <tr>
+                    <td>{{ uncut.name }} Mazeras</td>
+                    <td>
+                      {% if uncut.price >= 1000 %}
+                      <span><p class="badge rounded-pill bg-primary">{{ uncut.price }}</p></span>
+                      {% else %}
+                      <span><p class="badge rounded-pill bg-primary">{{ uncut.price }}</p></span>
+                      {% endif %}
+                    </td>
+                    <td>
+                        <!-- Button trigger modal -->
+                        <button type="button" href="{% url 'view_uncut_mazeras' uncut.id %}" class="btn btn-success me-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{ uncut.id }}">
+                        <i class="fa-solid fa-circle-info"></i>
+                        </button>
 
-                            <!-- Edit Modal -->
-                            <div class="modal fade" id="exampleModal{{ stone.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                              <div class="modal-dialog" role="document">
-                                  <div class="modal-content bg-black">
-                                  <div class="modal-header">
-                                      <h1 class="modal-title fs-5" id="exampleModalLabel{{ stone.id }}">
-                                          Stone: {{ stone.name }}
-                                      </h1>
-                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                          <span aria-hidden="true"></span>
-                                      </button>
-                                  </div>
-                                  <div class="modal-body">
-                                      <ul class="list-unstyled">
-                                          <li>Name: <strong>{{ stone.name }}</strong></li>
-                                          <li>Price: <strong>{{ stone.price }}</strong></li>
-                                          <li>Stock: <strong>{{ stone.stock }}</strong></li>
-                                      </ul>
-                                  </div>
-                                  <div class="modal-footer">
-                                      <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
-                                  </div>
-                                  </div>
+                        <!-- Edit Modal -->
+                        <div class="modal fade" id="exampleModal{{ uncut.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                              <div class="modal-content bg-black">
+                              <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel{{ uncut.id }}">
+                                      {{ uncut.name }} Stone Mazeras
+                                  </h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true"></span>
+                                  </button>
                               </div>
-                            </div>
-
-                            <a href="{% url 'edit' stone.id %}" class="btn btn-warning me-1"><i class="fa-solid fa-pen-to-square"></i></a>
-
-                            <button 
-                            data-bs-toggle="modal"
-                            data-bs-target="#delete{{ stone.id }}"
-                            type="button" 
-                            class="btn btn-danger">
-                            <i class="fa-solid fa-trash"></i>
-                            </button>
-
-                            <!-- Delete Modal -->
-                            <div class="modal fade" id="delete{{ stone.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                              <div class="modal-dialog" role="document">
-                                  <div class="modal-content bg-black">
-                                  <div class="modal-header">
-                                      <h1 class="modal-title fs-5" id="delete{{ stone.id }}">
-                                          Stone: {{ stone.name }}
-                                      </h1>
-                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                          <span aria-hidden="true"></span>
-                                      </button>
-                                  </div>
-                                  <div class="modal-body">
-                                    <p>Are you sure you want to delete this natural stone?</p>
-                                  </div>
-                                  <div class="modal-footer">
-                                    <form action="{% url 'delete' stone.id %}" method="POST">
-                                      {% csrf_token %}
-                                      <input type="submit" class="btn btn-danger" value="Delete">
-                                    </form>
-                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                  </div>
-                                  </div>
+                              <div class="modal-body">
+                                  <ul class="list-unstyled">
+                                      <li>Name: <strong>{{ uncut.name }}</strong></li>
+                                  </ul>
                               </div>
-                            </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                              </div>
+                              </div>
+                          </div>
+                        </div>
 
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                        <a href="{% url 'edit_uncut_mazeras' uncut.id %}" class="btn btn-warning me-1"><i class="fa-solid fa-pen-to-square"></i></a>
+
+                        <button 
+                        data-bs-toggle="modal"
+                        data-bs-target="#delete{{ uncut.id }}"
+                        type="button" 
+                        class="btn btn-danger">
+                        <i class="fa-solid fa-trash"></i>
+                        </button>
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="delete{{ uncut.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                              <div class="modal-content bg-black">
+                              <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="delete{{ uncut.id }}">
+                                    {{ uncut.name }} Stone Mazeras
+                                  </h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true"></span>
+                                  </button>
+                              </div>
+                              <div class="modal-body">
+                                <p>Are you sure you want to delete this entry?</p>
+                              </div>
+                              <div class="modal-footer">
+                                <form action="{% url 'delete_uncut_mazeras' uncut.id %}" method="POST">
+                                  {% csrf_token %}
+                                  <input type="submit" class="btn btn-danger" value="Delete">
+                                </form>
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+              </table>
             </div>
           </p>
         </div>
+        </div>
       </div>
-      {% else %}
-      <h5 class="alert alert-primary ms-4 me-4">No Stones In Stock</h5>
-      {% endif %}
     </div>
   </div>
 </div>
 
 <hr class="my-4 text-white">
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-12">
-      {% if projects %}
-      <div class="card bg-black ms-4 me-4 mb-4">
-        <div class="card-header text-muted h3 mt-4">
-          <i class="fa-solid fa-list fa-lg me-3"></i> Projects
-          <span class="float-end"><a class="btn btn-sm btn-outline-success" href="{% url 'new_project' %}"><i class="fa-solid fa-plus"></i></a></span>
-        </div>
-        <div class="card-body">
-          <p class="card-text">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card bg-black text-white ms-4 me-4 mb-4">
+          <div class="card-header text-white h3 mt-4">Cut Mazeras Price List
+            <span class="float-end"><a class="btn btn-sm btn-outline-success" href="{% url 'add_cut_mazeras' %}"><i class="fa-solid fa-plus"></i></a></span>
+
+          </div>
+          <div class="card-body">
             <div class="table-responsive">
-                <table class="table text-white ">
-                    <thead>
-                    <tr>
-                        <th scope="col">Project Name</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Stone</th>
-                        <th scope="col">Started</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for project in projects %}
-                    <tr>
-                        <td>{{ project.name }}</td>
-                        <td>{{ project.location }}</td>
-                        <td>{{ project.stone }}</td>
-                        <td>{{ project.created_at|timesince }} ago.</td>
-                        <td>
-                          {% if project.status %}
-                          <span><p class="badge rounded-pill bg-success">Completed</p></span>
-                          {% else %}
-                          <span><p class="badge rounded-pill bg-warning">On Going..</p></span>
-                          {% endif %}
-                        </td>
-                        <td>
-                            <!-- Button trigger modal -->
-                            <button type="button" href="{% url 'view_project' project.id %}" class="btn btn-success me-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{ project.id }}">
-                            <i class="fa-solid fa-circle-info"></i>
-                            </button>
+              <table class="table text-white ">
+                  <thead>
+                  <tr>
+                      <th scope="col">Size</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for cut in cut_mazeras %}
+                  <tr>
+                      <td>{{ cut.name }}</td>
+                      <td>
+                        {% if cut.price >= 1000 %}
+                        <span><p class="badge rounded-pill bg-primary">{{ cut.price }}</p></span>
+                        {% else %}
+                        <span><p class="badge rounded-pill bg-secondary">{{ cut.price }}</p></span>
+                        {% endif %}
+                      </td>
+                      <td>
+                          <!-- Button trigger modal -->
+                          <button type="button" href="{% url 'view_cut_mazeras' cut.id %}" class="btn btn-success me-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{ cut.id }}">
+                          <i class="fa-solid fa-circle-info"></i>
+                          </button>
 
-                            <!-- Edit Modal -->
-                            <div class="modal fade" id="exampleModal{{ project.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                              <div class="modal-dialog" role="document">
-                                  <div class="modal-content bg-black">
-                                  <div class="modal-header">
-                                      <h1 class="modal-title fs-5" id="exampleModalLabel{{ project.id }}">
-                                          Project: {{ project.name }}
-                                      </h1>
-                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                          <span aria-hidden="true"></span>
-                                      </button>
-                                  </div>
-                                  <div class="modal-body">
-                                      <ul class="list-unstyled">
-                                          <li>Name: <strong>{{ project.name }}</strong></li>
-                                          <li>Location: <strong>{{ project.location }}</strong></li>
-                                          <li>Date Started: <strong>{{ project.created_at }}</strong></li>
-                                          <li>Complete: <strong>{{ project.status }}</strong></li>
-                                      </ul>
-                                  </div>
-                                  <div class="modal-footer">
-                                      <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
-                                  </div>
-                                  </div>
-                              </div>
+                          <!-- Edit Modal -->
+                          <div class="modal fade" id="exampleModal{{ cut.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content bg-black">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel{{ cut.id }}">
+                                        {{ cut.name }} Stone Mazeras
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <ul class="list-unstyled">
+                                        <li>Name: <strong>{{ cut.name }}</strong></li>
+                                    </ul>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                                </div>
+                                </div>
                             </div>
+                          </div>
 
-                            <a href="{% url 'edit_project' project.id %}" class="btn btn-warning me-1"><i class="fa-solid fa-pen-to-square"></i></a>
+                          <a href="{% url 'edit_cut_mazeras' cut.id %}" class="btn btn-warning me-1"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                            <button 
-                            data-bs-toggle="modal"
-                            data-bs-target="#delete{{ project.id }}"
-                            type="button" 
-                            class="btn btn-danger">
-                            <i class="fa-solid fa-trash"></i>
-                            </button>
+                          <button 
+                          data-bs-toggle="modal"
+                          data-bs-target="#delete{{ cut.id }}"
+                          type="button" 
+                          class="btn btn-danger">
+                          <i class="fa-solid fa-trash"></i>
+                          </button>
 
-                            <!-- Delete Modal -->
-                            <div class="modal fade" id="delete{{ project.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                              <div class="modal-dialog" role="document">
-                                  <div class="modal-content bg-black">
-                                  <div class="modal-header">
-                                      <h1 class="modal-title fs-5" id="delete{{ project.id }}">
-                                          Stone: {{ stone.name }}
-                                      </h1>
-                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                          <span aria-hidden="true"></span>
-                                      </button>
-                                  </div>
-                                  <div class="modal-body">
-                                    <p>Are you sure you want to delete this natural stone?</p>
-                                  </div>
-                                  <div class="modal-footer">
-                                    <form action="{% url 'delete_project' project.id %}" method="POST">
-                                      {% csrf_token %}
-                                      <input type="submit" class="btn btn-danger" value="Delete">
-                                    </form>
-                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                  </div>
-                                  </div>
-                              </div>
+                          <!-- Delete Modal -->
+                          <div class="modal fade" id="delete{{ cut.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content bg-black">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="delete{{ cut.id }}">
+                                      {{ cut.name }} Stone Mazeras
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                  <p>Are you sure you want to delete this entry?</p>
+                                </div>
+                                <div class="modal-footer">
+                                  <form action="{% url 'delete_cut_mazeras' cut.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="submit" class="btn btn-danger" value="Delete">
+                                  </form>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                                </div>
                             </div>
-
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-          </p>
+                          </div>
+                      </td>
+                  </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+              </div>
+            </p>
+          </div>
         </div>
       </div>
-      {% else %}
-      <h5 class="alert alert-primary ms-4 me-4">No Project</h5>
-      {% endif %}
     </div>
   </div>
+</div>
+
+<hr class="my-4 text-white">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        {% if stones %}
+        <div class="card bg-black text-white ms-4 me-4 mb-4">
+          <div class="card-header text-muted h3 mt-4">
+            <i class="fa-solid fa-list fa-lg me-3"></i> Stones
+            <span class="float-end"><a class="btn btn-sm btn-outline-success" href="{% url 'add' %}"><i class="fa-solid fa-plus"></i></a></span>
+          </div>
+          <div class="card-body">
+            <p class="card-text">
+              <div class="table-responsive">
+                  <table class="table text-white ">
+                      <thead>
+                      <tr>
+                          <th scope="col">Stone</th>
+                          <th scope="col">Price</th>
+                          <th scope="col">Stock</th>
+                          <th scope="col">Actions</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {% for stone in stones %}
+                      <tr>
+                          <td>{{ stone.name }}</td>
+                          <td>{{ stone.price }}</td>
+                          <td>
+                            {% if stone.stock <= 1 %}
+                            <span><p class="badge rounded-pill bg-danger">Low</p></span>
+                            {% else %}
+                            <span><p class="badge rounded-pill bg-primary">{{ stone.stock }}</p></span>
+                            {% endif %}
+                          </td>
+                          <td>
+                              <!-- Button trigger modal -->
+                              <button type="button" href="{% url 'view_stone' stone.id %}" class="btn btn-success me-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{ stone.id }}">
+                                <i class="fa-solid fa-circle-info"></i>
+                              </button>
+
+                              <!-- Edit Modal -->
+                              <div class="modal fade" id="exampleModal{{ stone.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content bg-black">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel{{ stone.id }}">
+                                            Stone: {{ stone.name }}
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <ul class="list-unstyled">
+                                            <li>Name: <strong>{{ stone.name }}</strong></li>
+                                            <li>Price: <strong>{{ stone.price }}</strong></li>
+                                            <li>Stock: <strong>{{ stone.stock }}</strong></li>
+                                        </ul>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                    </div>
+                                </div>
+                              </div>
+
+                              <a href="{% url 'edit' stone.id %}" class="btn btn-warning me-1"><i class="fa-solid fa-pen-to-square"></i></a>
+
+                              <button 
+                              data-bs-toggle="modal"
+                              data-bs-target="#delete{{ stone.id }}"
+                              type="button" 
+                              class="btn btn-danger ">
+                              <i class="fa-solid fa-trash"></i>
+                              </button>
+
+                              <!-- Delete Modal -->
+                              <div class="modal fade" id="delete{{ stone.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content bg-black">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="delete{{ stone.id }}">
+                                            Stone: {{ stone.name }}
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <p>Are you sure you want to delete this natural stone?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <form action="{% url 'delete' stone.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="submit" class="btn btn-danger" value="Delete">
+                                      </form>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    </div>
+                                    </div>
+                                </div>
+                              </div>
+
+                          </td>
+                      </tr>
+                      {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+            </p>
+          </div>
+        </div>
+        {% else %}
+        <h5 class="alert alert-primary ms-4 me-4">No Stones In Stock</h5>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}

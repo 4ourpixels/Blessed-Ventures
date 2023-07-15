@@ -1,0 +1,24 @@
+{% extends 'mazeras/base.html' %}{% load static %} {% block body %} {% if
+success %}
+<div class="alert alert-success" role="alert">
+  Stone updated.
+  <a href="{% url 'index' %}" class="alert-link">Back Home.</a>
+</div>
+{% else %}
+<h3 class="m-4">Add Mazeras</h3>
+<div class="row justify-content-center">
+  <div class="col">
+    <div class="card bg-black text-white p-4 mb-3">
+      <div class="card-body">
+        <form action="{% url 'add_uncut_mazeras' %}" method="POST">
+          {% csrf_token %} {{ form.as_p }}
+          <button class="btn btn-lg btn-success w-100 my-5">Add</button>
+          <a class="btn w-100 btn-outline-secondary" href="{% url 'index' %}"
+            >Cancel</a
+          >
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %} {% endblock %}
